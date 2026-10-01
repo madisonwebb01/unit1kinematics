@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kinematics Practice Test</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d0216'/%3E%3Cpath d='M12 50 L12 14 M12 50 L52 50' stroke='%23e6ae39' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M14 46 Q30 44 48 18' fill='none' stroke='%23b64b7f' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Saira+Semi+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1d0216; --bg2:#3a0a2b; --bg3:#450d33;
+  --plum:#2a0a20; --mauve:#5c2c4f; --pink:#b64b7f; --pinkd:#93365f; --gold:#e6ae39; --orange:#c0791b;
+  --line:#e5dbe1; --soft:#f7f1f4; --muted:#6e5867;
+  --ok:#0f7a5a; --okbg:#e6f7f0; --bad:#a3283c; --badbg:#fdeaee;
+  --shadow:0 8px 24px rgba(10,0,8,.38);
+  background:var(--bg);
+}
+*{box-sizing:border-box}
+html{background:var(--bg);overflow-anchor:none}
+body{margin:0;min-height:100vh;color:var(--plum);font-family:'Saira Semi Condensed','Arial Narrow',Arial,sans-serif;font-size:17px;line-height:1.45;
+  background:var(--bg) linear-gradient(135deg,var(--bg) 0%,var(--bg2) 55%,var(--bg3) 100%) fixed;overflow-x:hidden}
+.wrap{max-width:900px;margin:0 auto;padding:22px 16px 40px}
+h1{font-family:'EB Garamond',Georgia,serif;font-weight:700;color:#fff;font-size:38px;line-height:1.1;margin:0}
+.sub{color:var(--gold);margin:4px 0 18px;font-size:17px}
+.big{font-family:'EB Garamond',Georgia,serif;font-weight:700}
+button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer}
+/* stat rail */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat{background:#fff;border-radius:13px;padding:12px 14px;box-shadow:var(--shadow)}
+.stat .big{font-size:30px;line-height:1;color:var(--plum)}
+.stat .lab{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin-top:4px}
+/* tabs */
+.tabrow{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.tabs{display:flex;gap:8px;flex:1;min-width:0}
+.tab{border:0;background:var(--mauve);color:#fff;border-radius:11px;padding:10px 16px;min-height:44px;font-weight:600;white-space:nowrap}
+.tab[aria-selected="true"]{background:#fff;color:var(--plum);box-shadow:var(--shadow)}
+.reset{border:1.5px solid rgba(255,255,255,.45);background:transparent;color:#fff;border-radius:11px;padding:8px 14px;min-height:44px;white-space:nowrap;font-weight:600}
+.reset.armed{background:var(--bad);border-color:var(--bad)}
+/* chips + toggles */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.chip{border:1.5px solid rgba(255,255,255,.4);background:transparent;color:#fff;border-radius:999px;padding:7px 14px;min-height:44px;font-weight:600;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--pink);border-color:var(--pink)}
+.chip:disabled{opacity:.38;cursor:default}
+.toggles{display:flex;flex-wrap:wrap;gap:8px 18px;margin:2px 0 14px;color:#fff}
+.tog{display:flex;align-items:center;gap:8px;min-height:44px;cursor:pointer;user-select:none}
+.tog input{width:20px;height:20px;accent-color:var(--pink)}
+.help{color:#e9d9e3;font-size:15px;margin:-4px 0 12px}
+/* card */
+.card{background:#fff;border-radius:13px;box-shadow:var(--shadow);padding:18px 20px}
+.qtop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.meta{font-size:13px;letter-spacing:.07em;text-transform:uppercase;color:var(--pink);font-weight:700;padding-top:4px}
+.flag{border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;min-height:44px;font-weight:600;white-space:nowrap}
+.flag[aria-pressed="true"]{background:#fff6e2;border-color:var(--gold);color:#7a5200}
+.bar{height:6px;background:var(--soft);border-radius:6px;margin:10px 0 14px;overflow:hidden}
+.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--gold))}
+.stem{font-size:19px;margin-bottom:12px}
+.stem u{text-decoration-color:var(--pink);text-decoration-thickness:2px}
+.fig{margin:0 0 14px}
+.graph{display:block;width:100%;max-width:560px;height:auto;border:1px solid var(--line);border-radius:10px}
+.banner{border-radius:10px;padding:10px 14px;font-weight:700;margin-bottom:12px}
+.banner.ok{background:var(--okbg);color:var(--ok)}
+.banner.bad{background:var(--badbg);color:var(--bad)}
+.opt{display:block;width:100%;text-align:left;border:1.8px solid var(--line);background:#fff;border-radius:11px;padding:11px 14px;min-height:48px;margin:0}
+.optw{margin-bottom:9px}
+.opt:hover:not(:disabled){border-color:var(--pink);background:#fff8fb}
+.opt:disabled{cursor:default;color:var(--plum)}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.tag{float:right;font-size:13px;font-weight:700;margin-left:10px;text-transform:uppercase;letter-spacing:.05em}
+.right .tag{color:var(--ok)} .wrong .tag{color:var(--bad)}
+.why{font-size:16px;color:#3d2636;background:var(--soft);border-radius:0 0 10px 10px;margin:-4px 2px 0;padding:10px 14px 9px;border-left:4px solid var(--line)}
+.why.okw{border-left-color:var(--ok)} .why.badw{border-left-color:var(--bad)}
+.more{border:0;background:none;color:var(--pinkd);font-weight:700;padding:8px 0;min-height:44px;text-decoration:underline}
+.numrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.numrow input{font-family:inherit;font-size:19px;padding:9px 12px;border:1.8px solid var(--pink);border-radius:11px;width:190px;min-height:48px}
+.numrow input:disabled{background:var(--soft)}
+.unit{color:var(--muted)}
+.btn{border:0;background:var(--pink);color:#fff;border-radius:11px;padding:10px 18px;min-height:46px;font-weight:700}
+.btn.ghost{background:#fff;color:var(--plum);border:1.8px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:default}
+.warn{color:var(--bad);font-weight:600;margin-top:8px;min-height:1px}
+.box{border-radius:10px;padding:10px 14px;margin:10px 0;background:var(--soft);border-left:4px solid var(--line)}
+.box.okw{border-left-color:var(--ok)} .box.badw{border-left-color:var(--bad)}
+.box h4{margin:0 0 4px;font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.trap{margin:8px 0 0}
+.trap b{color:var(--bad)}
+.trap.hit{background:#fff;border:1.8px solid var(--bad);border-radius:9px;padding:8px 10px}
+.src{margin-top:14px;padding:10px 14px;border-radius:10px;background:#fbf4e3;border-left:4px solid var(--gold);font-size:16px}
+.src b{color:#7a5200}
+.note{margin-top:10px;font-size:15px;color:var(--muted)}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+.done{text-align:center}
+.done .big{font-size:42px;color:var(--pink)}
+/* tools */
+.flash{min-height:210px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;border:2px dashed var(--line);border-radius:12px;padding:18px;margin:12px 0}
+.flash .front{font-family:'EB Garamond',Georgia,serif;font-size:28px;font-weight:700}
+.flash .back{font-size:19px;margin-top:10px}
+.flash .hint{font-size:14px;color:var(--muted);margin-top:12px}
+.subhead{font-family:'EB Garamond',Georgia,serif;font-size:26px;font-weight:700;margin:0 0 4px}
+.decknote{color:var(--muted);font-size:15px;margin:0 0 6px}
+.eqopts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.eqopts .opt{text-align:center;font-size:19px}
+/* review */
+.rcard{margin-bottom:14px}
+.rcard .stem{font-size:18px}
+.rline{margin:6px 0}
+.rline b{display:inline-block;min-width:118px}
+.empty{text-align:center;padding:26px 18px}
+.empty .big{font-size:26px}
+.linkbtn{border:0;background:none;color:var(--pinkd);font-weight:700;text-decoration:underline;min-height:44px;padding:8px}
+#view{min-height:calc(100vh - 30px)}
+footer{color:#d9c6d2;font-size:14px;text-align:center;margin-top:28px;line-height:1.6}
+footer i{font-style:italic}
+.privacy{color:#e9d9e3;font-size:14px;text-align:center;margin-top:12px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+@media (max-width:620px){
+  .wrap{padding:16px 12px 32px}
+  h1{font-size:30px}
+  .stats{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+  .stat{padding:9px 11px}
+  .stat .big{font-size:24px}
+  .stat .lab{font-size:11.5px}
+  .tabrow{flex-wrap:nowrap}
+  .tabs,.chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-left:-12px;margin-right:-12px;padding:0 12px}
+  .tabrow .tabs{margin-right:0;padding-right:0}
+  .tabs::-webkit-scrollbar,.chips::-webkit-scrollbar{display:none}
+  .tab{padding:10px 13px}
+  .reset{padding:8px 10px;font-size:15px}
+  .toggles{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:0 16px;margin:0 -12px 8px;padding:0 12px;font-size:15.5px}
+  .toggles::-webkit-scrollbar{display:none}
+  .tog{white-space:nowrap}
+  .sub{margin-bottom:12px}
+  .chips{margin-bottom:4px}
+  .card{padding:14px 13px}
+  .stem{font-size:18px}
+  .eqopts{grid-template-columns:1fr}
+  .numrow input{width:150px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Unit 1: Kinematics Practice Test</h1>
+  <div class="sub">Pre-IB Chem/Phys &middot; Answer first, then see why.</div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="tabrow">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="practice">Practice Test</button>
+      <button class="tab" role="tab" data-tab="tools">Additional Practice Tools</button>
+      <button class="tab" role="tab" data-tab="review">My Review</button>
+    </div>
+    <button class="reset" id="reset" type="button">Reset progress</button>
+  </div>
+
+  <div id="view"></div>
+
+  <div class="privacy">Your progress saves in this browser only. It does not sync across devices and never reaches your teacher.</div>
+  <footer>
+    Created using Claude by Madison Webb, 2026.<br>
+    Anthropic. (2026). <i>Claude</i> [large language model]. https://claude.ai
+  </footer>
+</div>
+
+<script src="graphs.js"></script>
+<script src="vocab.js"></script>
+<script src="position-time.js"></script>
+<script src="velocity-time.js"></script>
+<script src="equations.js"></script>
+<script src="buggy.js"></script>
+<script src="tools.js"></script>
+<script>
+(function () {
+  "use strict";
+  var KEY = "kinematics-u1-practice-v1";
+  var SECTIONS = window.BANK || [];
+  var Q = [];
+  SECTIONS.forEach(function (s) {
+    s.questions.forEach(function (q) {
+      q.sec = s; q.id = s.id + "-" + q.n; q.isNum = q.type === "num"; Q.push(q);
+    });
+  });
+  var BYID = {}; Q.forEach(function (q) { BYID[q.id] = q; });
+
+  /* ---------- state ---------- */
+  var S = { ans: {}, flags: {}, ui: { tab: "practice", filter: "mixed", unseen: true, shufQ: false, shufA: false, rf: "missed", deck: "vocab", asec: "all" } };
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (raw) {
+        var d = JSON.parse(raw);
+        if (d && typeof d === "object") {
+          S.ans = d.ans || {}; S.flags = d.flags || {};
+          if (d.ui) for (var k in d.ui) S.ui[k] = d.ui[k];
+        }
+      }
+    } catch (e) {}
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  load();
+
+  /* ---------- helpers ---------- */
+  function $(sel, el) { return (el || document).querySelector(sel); }
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function figHTML(q) { return q.fig ? '<div class="fig">' + q.fig() + "</div>" : ""; }
+  function dec(q) { return q.tol < 0.5 ? 1 : 0; }
+  function fmtNum(v, d) { var s = (d == null ? String(v) : Number(v).toFixed(d)); return s.replace("-", "−"); }
+  function correctText(q) {
+    if (q.isNum) return fmtNum(q.answer, dec(q)) + " " + q.unit;
+    for (var i = 0; i < q.opts.length; i++) if (q.opts[i][1] === 1) return q.opts[i][0];
+  }
+  function srcHTML(q) {
+    var r = window.TOOLS.review[q.topic];
+    return r ? '<div class="src"><b>Where to review this:</b> ' + r + "</div>" : "";
+  }
+  function missedIds() { return Q.filter(function (q) { var a = S.ans[q.id]; return a && !a.ok; }).map(function (q) { return q.id; }); }
+  function flaggedIds() { return Q.filter(function (q) { return S.flags[q.id]; }).map(function (q) { return q.id; }); }
+  function matchTrap(q, v) {
+    if (!q.traps) return -1;
+    for (var i = 0; i < q.traps.length; i++) if (Math.abs(v - q.traps[i][0]) <= q.traps[i][1] + 1e-9) return i;
+    return -1;
+  }
+
+  /* ---------- stat rail ---------- */
+  function renderStats() {
+    var answered = Q.filter(function (q) { return S.ans[q.id]; });
+    var right = answered.filter(function (q) { return S.ans[q.id].ok; }).length;
+    var acc = answered.length ? Math.round(right / answered.length * 100) + "%" : "–";
+    $("#stats").innerHTML =
+      stat(answered.length + '<span style="font-size:.55em;color:#8a7383"> / ' + Q.length + "</span>", "Questions seen") +
+      stat(acc, "Accuracy") +
+      stat(missedIds().length, "In your missed pile") +
+      stat(flaggedIds().length, "Flagged for review");
+    function stat(v, l) { return '<div class="stat"><div class="big">' + v + '</div><div class="lab">' + l + "</div></div>"; }
+  }
+
+  /* ---------- tabs ---------- */
+  document.querySelectorAll(".tab").forEach(function (b) {
+    b.addEventListener("click", function () { S.ui.tab = b.dataset.tab; save(); render(); });
+  });
+  var resetBtn = $("#reset"), resetTimer = null;
+  resetBtn.addEventListener("click", function () {
+    if (!resetBtn.classList.contains("armed")) {
+      resetBtn.classList.add("armed"); resetBtn.textContent = "Tap again to erase";
+      resetTimer = setTimeout(disarm, 4000);
+      return;
+    }
+    clearTimeout(resetTimer); disarm();
+    S.ans = {}; S.flags = {}; save(); view = null; render();
+  });
+  function disarm() { resetBtn.classList.remove("armed"); resetBtn.textContent = "Reset progress"; }
+
+  function render() {
+    document.querySelectorAll(".tab").forEach(function (b) { b.setAttribute("aria-selected", b.dataset.tab === S.ui.tab ? "true" : "false"); });
+    renderStats();
+    if (S.ui.tab === "practice") renderPractice();
+    else if (S.ui.tab === "tools") renderTools();
+    else renderReview();
+  }
+
+  /* ---------- practice ---------- */
+  var view = null; // {ids, pos, sess:{id:{...}}, orders:{id:[...]}}
+  function buildView() {
+    var f = S.ui.filter, ids;
+    if (f === "missed") ids = missedIds();
+    else if (f === "flagged") ids = flaggedIds();
+    else if (f === "mixed") ids = Q.map(function (q) { return q.id; });
+    else ids = Q.filter(function (q) { return q.sec.id === f; }).map(function (q) { return q.id; });
+    if (S.ui.shufQ) ids = shuffle(ids);
+    if (S.ui.unseen) {
+      var un = ids.filter(function (id) { return !S.ans[id]; }), se = ids.filter(function (id) { return S.ans[id]; });
+      ids = un.concat(se);
+    }
+    view = { ids: ids, pos: 0, sess: {}, orders: {} };
+  }
+
+  function chipsHTML() {
+    var m = missedIds().length, fl = flaggedIds().length, h = '<div class="chips" role="group" aria-label="Choose questions">';
+    function chip(k, label, dis) { return '<button class="chip" data-f="' + k + '" aria-pressed="' + (S.ui.filter === k) + '"' + (dis ? " disabled" : "") + ">" + label + "</button>"; }
+    h += chip("mixed", "Mixed");
+    SECTIONS.forEach(function (s) { h += chip(s.id, s.short); });
+    h += chip("missed", "Missed only (" + m + ")", !m);
+    h += chip("flagged", "Flagged (" + fl + ")", !fl);
+    return h + "</div>";
+  }
+
+  function renderPractice() {
+    if ((S.ui.filter === "missed" && !missedIds().length && !view) || (S.ui.filter === "flagged" && !flaggedIds().length && !view)) S.ui.filter = "mixed";
+    if (!view) buildView();
+    var el = $("#view");
+    el.innerHTML = chipsHTML() +
+      '<div class="toggles">' +
+      tog("unseen", "Unseen first") + tog("shufQ", "Shuffle questions") + tog("shufA", "Shuffle answers") +
+      "</div>" +
+      '<div class="card" id="qcard"></div>';
+    el.querySelectorAll(".chip").forEach(function (c) {
+      c.addEventListener("click", function () { S.ui.filter = c.dataset.f; save(); buildView(); renderPractice(); renderStats(); });
+    });
+    el.querySelectorAll(".toggles input").forEach(function (inp) {
+      inp.addEventListener("change", function () { S.ui[inp.dataset.k] = inp.checked; save(); buildView(); renderPractice(); });
+    });
+    renderQuestion();
+    function tog(k, label) { return '<label class="tog"><input type="checkbox" data-k="' + k + '"' + (S.ui[k] ? " checked" : "") + ">" + label + "</label>"; }
+  }
+
+  function renderQuestion() {
+    var card = $("#qcard");
+    if (!view.ids.length) {
+      card.innerHTML = '<div class="empty"><div class="big">Nothing in this view yet</div><p>Questions you miss or flag will show up here. Pick Mixed or a section to keep practicing.</p></div>';
+      return;
+    }
+    if (view.pos >= view.ids.length) {
+      var res = view.ids.map(function (id) { return view.sess[id]; }).filter(Boolean);
+      var r = res.filter(function (x) { return x.ok; }).length;
+      card.innerHTML = '<div class="done"><div class="big">' + r + " / " + res.length + '</div><p>That is the end of this view. Check <b>My Review</b> for every explanation, or start the view again.</p>' +
+        '<div class="nav" style="justify-content:center"><button class="btn ghost" id="again">Start this view again</button><button class="btn" id="toRev">Go to My Review</button></div></div>';
+      $("#again").onclick = function () { buildView(); renderPractice(); landCard(); };
+      $("#toRev").onclick = function () { S.ui.tab = "review"; save(); render(); window.scrollTo(0, 0); };
+      return;
+    }
+    var q = BYID[view.ids[view.pos]], n = view.ids.length, i = view.pos;
+    var flagged = !!S.flags[q.id];
+    var h = '<div class="qtop"><div class="meta">' + q.sec.short + " &middot; " + q.topic + " &middot; " + (i + 1) + " of " + n + " in this view</div>" +
+      '<button class="flag" id="flag" aria-pressed="' + flagged + '">' + (flagged ? "⚑ Flagged" : "⚐ Flag") + "</button></div>" +
+      '<div class="bar"><span style="width:' + Math.round(i / n * 100) + '%"></span></div>' +
+      '<div class="stem">' + q.stem + "</div>" + figHTML(q) + '<div id="banner"></div>';
+    if (q.isNum) {
+      h += '<div class="numrow"><input id="num" inputmode="decimal" autocomplete="off" aria-label="Your answer"><span class="unit">no units</span><button class="btn" id="check">Check answer</button></div><div class="warn" id="warn" aria-live="polite"></div><div id="after"></div>';
+    } else {
+      var order = view.orders[q.id];
+      if (!order) { order = q.opts.map(function (_, k) { return k; }); if (S.ui.shufA) order = shuffle(order); view.orders[q.id] = order; }
+      h += '<div id="opts">' + order.map(function (k) {
+        return '<div class="optw"><button class="opt" data-k="' + k + '">' + q.opts[k][0] + '</button><div class="whyslot"></div></div>';
+      }).join("") + '</div><div id="after"></div>';
+    }
+    h += '<div class="nav"><button class="btn ghost" id="back"' + (i ? "" : " disabled") + '>Back</button><button class="btn" id="next">' + (view.sess[q.id] ? "Next" : "Skip") + "</button></div>";
+    card.innerHTML = h;
+
+    $("#flag").onclick = function () {
+      if (S.flags[q.id]) delete S.flags[q.id]; else S.flags[q.id] = 1;
+      save(); renderStats();
+      var f = !!S.flags[q.id]; this.setAttribute("aria-pressed", f); this.textContent = f ? "⚑ Flagged" : "⚐ Flag";
+      refreshChipCounts();
+    };
+    $("#back").onclick = function () { view.pos = Math.max(0, view.pos - 1); renderQuestion(); landCard(); };
+    $("#next").onclick = function () { view.pos++; renderQuestion(); landCard(); };
+
+    if (q.isNum) {
+      var inp = $("#num");
+      $("#check").onclick = function () { submitNum(q, inp); };
+      inp.addEventListener("keydown", function (e) { if (e.key === "Enter") submitNum(q, inp); });
+    } else {
+      card.querySelectorAll(".opt").forEach(function (b) { b.addEventListener("click", function () { submitMC(q, +b.dataset.k, b); }); });
+    }
+    var prior = view.sess[q.id];
+    if (prior) { if (q.isNum) { inp.value = prior.raw; showNum(q, prior); } else showMC(q, prior.pick); }
+  }
+
+  function refreshChipCounts() {
+    var m = missedIds().length, fl = flaggedIds().length;
+    var cm = $('.chip[data-f="missed"]'), cf = $('.chip[data-f="flagged"]');
+    if (cm) { cm.textContent = "Missed only (" + m + ")"; cm.disabled = !m && S.ui.filter !== "missed"; }
+    if (cf) { cf.textContent = "Flagged (" + fl + ")"; cf.disabled = !fl && S.ui.filter !== "flagged"; }
+  }
+
+  function record(q, ok, pick) {
+    var a = S.ans[q.id] || { tries: 0 };
+    a.tries++; a.ok = ok; a.pick = pick; a.t = Date.now();
+    S.ans[q.id] = a; save(); renderStats(); refreshChipCounts();
+  }
+
+  function anchor(el, fn) {
+    var before = el.getBoundingClientRect().top;
+    fn();
+    var after = el.getBoundingClientRect().top;
+    if (Math.abs(after - before) > 0.5) window.scrollBy(0, after - before);
+  }
+  function landCard() {
+    var c = $("#qcard"); if (!c) return;
+    var y = c.getBoundingClientRect().top + window.pageYOffset - 12;
+    window.scrollTo(0, Math.max(0, y));
+  }
+
+  function submitMC(q, k, btn) {
+    if (view.sess[q.id]) return;
+    var ok = q.opts[k][1] === 1;
+    view.sess[q.id] = { pick: k, ok: ok };
+    record(q, ok, k);
+    anchor(btn, function () { showMC(q, k); });
+  }
+  function showMC(q, k) {
+    var ok = q.opts[k][1] === 1;
+    $("#banner").innerHTML = '<div class="banner ' + (ok ? "ok" : "bad") + '" role="status">' + (ok ? "Correct!" : "Not quite. The correct answer is marked in green.") + "</div>";
+    var wraps = document.querySelectorAll("#opts .optw"), others = [];
+    wraps.forEach(function (w) {
+      var b = $(".opt", w), j = +b.dataset.k, isRight = q.opts[j][1] === 1, slot = $(".whyslot", w);
+      b.disabled = true;
+      if (isRight) { b.classList.add("right"); b.insertAdjacentHTML("afterbegin", '<span class="tag">Correct answer</span>'); }
+      else if (j === k) { b.classList.add("wrong"); b.insertAdjacentHTML("afterbegin", '<span class="tag">Your answer</span>'); }
+      var why = '<div class="why ' + (isRight ? "okw" : "badw") + '">' + q.opts[j][2] + "</div>";
+      if (ok && !isRight) { slot.innerHTML = why; slot.hidden = true; others.push(slot); }
+      else slot.innerHTML = why;
+    });
+    var after = '';
+    if (others.length) after += '<button class="more" id="more">Show why the other choices are wrong</button>';
+    if (q.note) after += '<div class="note">' + q.note + "</div>";
+    after += srcHTML(q);
+    $("#after").innerHTML = after;
+    if (others.length) $("#more").onclick = function () { var b = this; anchor(b, function () { others.forEach(function (s) { s.hidden = !s.hidden; }); b.textContent = others[0].hidden ? "Show why the other choices are wrong" : "Hide the other explanations"; }); };
+    $("#next").textContent = "Next";
+  }
+
+  function parseNum(raw) {
+    var s = String(raw).trim().replace(/[\u2212\u2013\u2014]/g, "-").replace(/,/g, "").replace(/\s+/g, "");
+    if (!s) return { err: "Type a number first." };
+    if (/[a-z%/]/i.test(s)) return { err: "Numbers only, no units. Remove the letters and try again." };
+    if (!/^[-+]?(\d+\.?\d*|\.\d+)$/.test(s)) return { err: "That does not look like a number. Check for extra symbols." };
+    return { v: parseFloat(s) };
+  }
+  function submitNum(q, inp) {
+    if (view.sess[q.id]) return;
+    var p = parseNum(inp.value);
+    if (p.err) { $("#warn").textContent = p.err; return; }
+    $("#warn").textContent = "";
+    var ok = Math.abs(p.v - q.answer) <= q.tol + 1e-9;
+    var rec = { pick: p.v, raw: inp.value, ok: ok };
+    view.sess[q.id] = rec;
+    record(q, ok, p.v);
+    anchor(inp, function () { showNum(q, rec); });
+  }
+  function showNum(q, rec) {
+    var ok = rec.ok, hit = ok ? -1 : matchTrap(q, rec.pick);
+    $("#num").disabled = true; $("#check").disabled = true;
+    $("#banner").innerHTML = '<div class="banner ' + (ok ? "ok" : "bad") + '" role="status">' +
+      (ok ? "Correct! The answer is " + correctText(q) + "." : "Not quite. You entered " + fmtNum(rec.pick) + "; the answer is " + correctText(q) + ".") + "</div>";
+    var h = '<div class="box okw"><h4>How to solve it</h4>' + q.work + "</div>";
+    if (q.traps && q.traps.length) {
+      var t = q.traps.map(function (tr, i) {
+        return '<div class="trap' + (i === hit ? " hit" : "") + '"><b>' + fmtNum(tr[0]) + "</b>" + (i === hit ? " (your answer)" : "") + ": " + tr[2] + "</div>";
+      }).join("");
+      if (ok) h += '<button class="more" id="more">Show the common wrong answers</button><div class="box badw" id="traps" hidden><h4>Common wrong answers</h4>' + t + "</div>";
+      else h += '<div class="box badw" id="traps"><h4>' + (hit >= 0 ? "Your answer matches a common mistake" : "Common wrong answers") + "</h4>" + t + "</div>";
+    }
+    if (q.note) h += '<div class="note">' + q.note + "</div>";
+    h += srcHTML(q);
+    $("#after").innerHTML = h;
+    var more = $("#more");
+    if (more) more.onclick = function () { var b = this, tb = $("#traps"); anchor(b, function () { tb.hidden = !tb.hidden; b.textContent = tb.hidden ? "Show the common wrong answers" : "Hide the common wrong answers"; }); };
+    $("#next").textContent = "Next";
+  }
+
+  /* ---------- tools ---------- */
+  var deckState = null;
+  function autopsyItems() {
+    var items = [];
+    Q.forEach(function (q) {
+      if (S.ui.asec !== "all" && q.sec.id !== S.ui.asec) return;
+      if (q.isNum) q.traps.forEach(function (t) { items.push({ q: q, label: "A student answered <b>" + fmtNum(t[0]) + "</b>.", why: t[2] }); });
+      else q.opts.forEach(function (o) { if (o[1] !== 1) items.push({ q: q, label: "A student chose <b>" + o[0] + "</b>.", why: o[2] }); });
+    });
+    return items;
+  }
+  function openDeck() {
+    var d = S.ui.deck, T = window.TOOLS, items;
+    if (d === "vocab") items = T.vocab; else if (d === "rules") items = T.rules; else if (d === "eqs") items = T.equations;
+    else if (d === "autopsy") items = autopsyItems(); else items = T.pick;
+    deckState = { items: shuffle(items), i: 0, flipped: false, picked: null };
+  }
+  function renderTools() {
+    var el = $("#view"), decks = [["vocab", "Vocab Flashcards"], ["rules", "Graph Rules"], ["eqs", "Equation Flashcards"], ["pick", "Pick the Equation"], ["autopsy", "Distractor Autopsy"]];
+    var h = '<div class="chips" role="group" aria-label="Choose a deck">' + decks.map(function (d) {
+      return '<button class="chip" data-d="' + d[0] + '" aria-pressed="' + (S.ui.deck === d[0]) + '">' + d[1] + "</button>";
+    }).join("") + "</div>";
+    if (S.ui.deck === "autopsy") {
+      h += '<div class="chips" role="group" aria-label="Filter by section"><button class="chip" data-s="all" aria-pressed="' + (S.ui.asec === "all") + '">All sections</button>' +
+        SECTIONS.map(function (s) { return '<button class="chip" data-s="' + s.id + '" aria-pressed="' + (S.ui.asec === s.id) + '">' + s.short + "</button>"; }).join("") + "</div>" +
+        '<p class="help">Section chips filter the Distractor Autopsy only. The flashcards and Pick the Equation always use the full deck.</p>';
+    }
+    h += '<div class="card" id="toolcard"></div>';
+    el.innerHTML = h;
+    el.querySelectorAll(".chip[data-d]").forEach(function (c) { c.onclick = function () { S.ui.deck = c.dataset.d; save(); openDeck(); renderTools(); }; });
+    el.querySelectorAll(".chip[data-s]").forEach(function (c) { c.onclick = function () { S.ui.asec = c.dataset.s; save(); openDeck(); renderTools(); }; });
+    if (!deckState) openDeck();
+    drawDeck();
+  }
+  function drawDeck() {
+    var c = $("#toolcard"), d = S.ui.deck, st = deckState, n = st.items.length, it = st.items[st.i];
+    var titles = { vocab: ["Vocab Flashcards", "Terms from your Kinematics Guide vocab list. Tap the card to flip it."],
+      rules: ["Graph Rules", "What each graph feature tells you. Tap the card to flip it."],
+      eqs: ["Equation Flashcards", "The four kinematic equations and the shortcuts for implied values. Tap the card to flip it."],
+      pick: ["Pick the Equation", "No math needed. Choose the equation that is missing the variable the problem never mentions."],
+      autopsy: ["Distractor Autopsy", "Every wrong answer from the practice test. Say why it fails, then check yourself."] };
+    var h = '<div class="subhead">' + titles[d][0] + '</div><p class="decknote">' + titles[d][1] + " Shuffled each time you open it. Card " + (n ? st.i + 1 : 0) + " of " + n + ".</p>";
+    if (!n) { c.innerHTML = h + '<div class="empty">No cards in this deck.</div>'; return; }
+    if (d === "vocab" || d === "rules" || d === "eqs") {
+      h += '<div class="flash" id="flash" role="button" tabindex="0"><div class="front">' + it[0] + "</div>" +
+        (st.flipped ? '<div class="back">' + it[1] + "</div>" : '<div class="hint">Tap to flip</div>') + "</div>";
+    } else if (d === "autopsy") {
+      h += '<div class="stem">' + it.q.stem + "</div>" + figHTML(it.q) +
+        '<div class="box badw">' + it.label + " Why is that wrong?</div>" +
+        (st.flipped ? '<div class="box okw"><h4>Why it fails</h4>' + it.why + '<div style="margin-top:6px"><b>Correct answer:</b> ' + correctText(it.q) + "</div></div>"
+          : '<button class="btn" id="reveal">Check yourself</button>');
+    } else {
+      var T = window.TOOLS;
+      h += '<div class="stem">' + it[0] + '</div><div class="eqopts">' + T.eqChoices.map(function (e, k) {
+        var cls = "";
+        if (st.picked != null) { if (k === it[1]) cls = " right"; else if (k === st.picked) cls = " wrong"; }
+        return '<button class="opt' + cls + '" data-k="' + k + '"' + (st.picked != null ? " disabled" : "") + ">" + e + "</button>";
+      }).join("") + "</div>";
+      if (st.picked != null) {
+        var ok = st.picked === it[1];
+        h += '<div class="banner ' + (ok ? "ok" : "bad") + '" style="margin-top:12px">' + (ok ? "Correct!" : "Not quite.") + "</div>" +
+          '<div class="box okw">Given: ' + it[2] + ". Unknown: " + it[3] + ". The variable never mentioned is <b>" + T.eqMissing[it[1]] + "</b>, so use the equation missing " + T.eqMissing[it[1]] + ": " + T.eqChoices[it[1]] + "</div>";
+      }
+    }
+    h += '<div class="nav"><button class="btn ghost" id="tprev"' + (st.i ? "" : " disabled") + '>Back</button><button class="btn ghost" id="tshuf">Shuffle</button><button class="btn" id="tnext"' + (st.i < n - 1 ? "" : " disabled") + ">Next</button></div>";
+    c.innerHTML = h;
+    var f = $("#flash");
+    if (f) { f.onclick = flip; f.onkeydown = function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } }; }
+    var rv = $("#reveal"); if (rv) rv.onclick = flip;
+    c.querySelectorAll(".eqopts .opt").forEach(function (b) { b.onclick = function () { st.picked = +b.dataset.k; drawDeck(); }; });
+    $("#tprev").onclick = function () { st.i--; st.flipped = false; st.picked = null; drawDeck(); };
+    $("#tnext").onclick = function () { st.i++; st.flipped = false; st.picked = null; drawDeck(); };
+    $("#tshuf").onclick = function () { openDeck(); drawDeck(); };
+    function flip() { st.flipped = !st.flipped; drawDeck(); }
+  }
+
+  /* ---------- review ---------- */
+  function renderReview() {
+    var el = $("#view"), f = S.ui.rf;
+    var answered = Q.filter(function (q) { return S.ans[q.id]; });
+    var lists = {
+      missed: answered.filter(function (q) { return !S.ans[q.id].ok; }),
+      flagged: Q.filter(function (q) { return S.flags[q.id]; }),
+      all: answered,
+      correct: answered.filter(function (q) { return S.ans[q.id].ok; })
+    };
+    var labels = { missed: "Missed", flagged: "Flagged", all: "All answered", correct: "Correct" };
+    var h = '<div class="chips" role="group" aria-label="Filter your review">' + ["missed", "flagged", "all", "correct"].map(function (k) {
+      return '<button class="chip" data-r="' + k + '" aria-pressed="' + (f === k) + '">' + labels[k] + " (" + lists[k].length + ")</button>";
+    }).join("") + "</div>";
+    var list = lists[f];
+    if (!list.length) {
+      var msg = { missed: "Questions you get wrong land here, with your answer, the correct answer and both explanations.",
+        flagged: "Questions you flag during the practice test land here so you can come back to them.",
+        all: "Every question you answer lands here with its explanation.",
+        correct: "Questions you get right land here." };
+      h += '<div class="card empty"><div class="big">Nothing here yet</div><p>' + msg[f] + '</p><button class="linkbtn" id="goPrac">Go to the practice test</button></div>';
+    } else {
+      h += list.map(function (q) {
+        var a = S.ans[q.id], r = '<div class="card rcard"><div class="meta">' + q.sec.short + " &middot; " + q.topic + (S.flags[q.id] ? " &middot; ⚑ flagged" : "") + "</div>" +
+          '<div class="stem" style="margin-top:6px">' + q.stem + "</div>" + figHTML(q);
+        if (a) {
+          var yours = q.isNum ? fmtNum(a.pick) : q.opts[a.pick][0];
+          r += '<div class="rline"><b style="color:' + (a.ok ? "var(--ok)" : "var(--bad)") + '">Your answer:</b> ' + yours + "</div>";
+        } else r += '<div class="rline"><b>Your answer:</b> not answered yet</div>';
+        r += '<div class="rline"><b style="color:var(--ok)">Correct answer:</b> ' + correctText(q) + "</div>";
+        if (q.isNum) {
+          r += '<div class="box okw"><h4>How to solve it</h4>' + q.work + "</div>";
+          if (a && !a.ok) { var hi = matchTrap(q, a.pick); if (hi >= 0) r += '<div class="box badw"><h4>Why your answer was off</h4>' + q.traps[hi][2] + "</div>"; }
+        } else {
+          var ci = q.opts.findIndex(function (o) { return o[1] === 1; });
+          if (a && !a.ok) r += '<div class="box badw"><h4>Why your answer fails</h4>' + q.opts[a.pick][2] + "</div>";
+          r += '<div class="box okw"><h4>Why the correct answer works</h4>' + q.opts[ci][2] + "</div>";
+        }
+        return r + srcHTML(q) + "</div>";
+      }).join("");
+    }
+    el.innerHTML = h;
+    el.querySelectorAll(".chip[data-r]").forEach(function (c) { c.onclick = function () { S.ui.rf = c.dataset.r; save(); renderReview(); }; });
+    var g = $("#goPrac"); if (g) g.onclick = function () { S.ui.tab = "practice"; save(); render(); };
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
